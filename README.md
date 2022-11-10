@@ -19,3 +19,4 @@ venv\Scripts\activate
 pip install -r requirements.txt
 flask --app app --debug run --port 5000
 ```
+[Flask Docs](https://flask.palletsprojects.com/en/2.2.x/quickstart/#)
