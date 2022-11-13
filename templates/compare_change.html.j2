@@ -55,30 +55,30 @@
             if (!compareChart.data.labels.includes(word)) {
                 compareChart.data.labels.push(word);
                 compareChart.data.datasets[0].data.push(metric);
-
-                arrayOfObj = compareChart.data.labels.map(function(d, i) {
-                    return {
-                        label: d,
-                        data: compareChart.data.datasets[0].data[i] || 0
-                    };
-                });
-                sortedArrayOfObj = arrayOfObj.sort(compare_words);
-
-                compareChart.data.labels = [];
-                compareChart.data.datasets[0].data = [];
-                compareChart.data.datasets[0].backgroundColor = [];
-                sortedArrayOfObj.forEach(function(d){
-                    compareChart.data.labels.push(d.label);
-                    compareChart.data.datasets[0].data.push(d.data);
-                    if (d.label == word) {
-                        compareChart.data.datasets[0].backgroundColor.push('rgba(240, 10, 0, 0.7)')
-                    } else {
-                        compareChart.data.datasets[0].backgroundColor.push('rgba(0, 10, 240, 0.7)')
-                    }
-                });
-
-                compareChart.update();
             }
+
+            arrayOfObj = compareChart.data.labels.map(function(d, i) {
+                return {
+                    label: d,
+                    data: compareChart.data.datasets[0].data[i] || 0
+                };
+            });
+            sortedArrayOfObj = arrayOfObj.sort(compare_words);
+
+            compareChart.data.labels = [];
+            compareChart.data.datasets[0].data = [];
+            compareChart.data.datasets[0].backgroundColor = [];
+            sortedArrayOfObj.forEach(function(d){
+                compareChart.data.labels.push(d.label);
+                compareChart.data.datasets[0].data.push(d.data);
+                if (d.label == word) {
+                    compareChart.data.datasets[0].backgroundColor.push('rgba(240, 10, 0, 0.7)')
+                } else {
+                    compareChart.data.datasets[0].backgroundColor.push('rgba(0, 10, 240, 0.7)')
+                }
+            });
+
+            compareChart.update();
         };
 
         const field = document.getElementById('input');
