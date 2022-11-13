@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Compare the change</title>
+<script src="{{url_for('static', filename='js/autocomplete.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+{% endblock %}
+
+{% block body %}
+<main role="main" class="container text-center">
+    <h1 class="mt-2 mb-2">Compare the change</h1>
+    <div class="container pt-4 pb-4">
+        <div class="h-100 d-flex flex-column bd-highlight">
+            <div class="input-group">
+                <input type="text" class="form-control" id="input" placeholder="Start typing the word..." autocomplete="off">
+            </div>
+        </div>
+    </div>
+    <h2 class="mt-2 mb-2"></h1>
+    <div> 
+        <canvas id="compareCanvas"></canvas> 
+    </div> 
+
+    <script>
+        compareCanvas = document.getElementById("compareCanvas");
+        compareCanvas.width  = window.innerWidth * 0.8;
+        compareCanvas.height = window.innerHeight * 0.6;
+
+        compareChart = new Chart(compareCanvas, {
+            type: 'bar',
+            data: {
+                labels: ["{{ min_word }}", "{{ max_word }}"],
+                datasets: [{
+                    data: [{{ min }}, {{ max }}],
+                    minBarLength: 4,
+                    borderWidth: 2,
+                    backgroundColor: ['rgba(0, 10, 240, 0.7)', 'rgba(0, 10, 240, 0.7)'],
+                    label: 'Change Metric',
+                }]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+
+        compare_words = function(a, b) {
+            if (a.data < b.data) {
+                return -1
+            } else {
+                return 1
+            }
+        }
+
+        updateChart = function(word, metric) {
+            if (!compareChart.data.labels.includes(word)) {
+                compareChart.data.labels.push(word);
+                compareChart.data.datasets[0].data.push(metric);
+
+                arrayOfObj = compareChart.data.labels.map(function(d, i) {
+                    return {
+                        label: d,
+                        data: compareChart.data.datasets[0].data[i] || 0
+                    };
+                });
+                sortedArrayOfObj = arrayOfObj.sort(compare_words);
+
+                compareChart.data.labels = [];
+                compareChart.data.datasets[0].data = [];
+                compareChart.data.datasets[0].backgroundColor = [];
+                sortedArrayOfObj.forEach(function(d){
+                    compareChart.data.labels.push(d.label);
+                    compareChart.data.datasets[0].data.push(d.data);
+                    if (d.label == word) {
+                        compareChart.data.datasets[0].backgroundColor.push('rgba(240, 10, 0, 0.7)')
+                    } else {
+                        compareChart.data.datasets[0].backgroundColor.push('rgba(0, 10, 240, 0.7)')
+                    }
+                });
+
+                compareChart.update();
+            }
+        };
+
+        const field = document.getElementById('input');
+        const ac = new Autocomplete(field, {
+            data: {{ data|safe }},
+            maximumItems: 10,
+            threshold: 1,
+            onSelectItem: ({label, value}) => {
+                updateChart(label, value)
+            }
+        });
+    </script>
+
+</main>
+{% endblock %}

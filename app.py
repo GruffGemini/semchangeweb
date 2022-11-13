@@ -36,3 +36,26 @@ def graded():
     fig.savefig("static/graph.png")
 
     return render_template('graded.html')
+
+@app.route('/compare')
+def compare():
+    data = []
+    min = 1.1
+    max = -0.1
+    min_word = ""
+    max_word = ""
+
+    with open('data/en/metrics_report.csv') as f:
+        f.readline()
+        for line in f:
+            word, metric = line.split(';')
+            metric = float(metric.strip())
+            data.append({"label": word, "value": metric})
+            if metric > max:
+                max = metric
+                max_word = word
+            elif metric < min:
+                min = metric
+                min_word = word
+
+    return render_template('compare_change.html.j2', data=data, min_word=min_word, max_word=max_word, min=min, max=max)
