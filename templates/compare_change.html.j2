@@ -2,7 +2,6 @@
 
 {% block head %}
 <title>Compare the change</title>
-<script src="{{url_for('static', filename='js/autocomplete.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 {% endblock %}
 
@@ -84,7 +83,7 @@
         const field = document.getElementById('input');
         const ac = new Autocomplete(field, {
             data: {{ data|safe }},
-            maximumItems: 10,
+            maximumItems: 15,
             threshold: 1,
             onSelectItem: ({label, value}) => {
                 updateChart(label, value)
