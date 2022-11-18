@@ -34,3 +34,26 @@ footer{
 canvas{
     margin: 0 auto;
 }
+
+.chart_line_div {
+  display: flex;
+  justify-content: center;
+  margin: 0 15px;
+  box-shadow: 0px 4px 16px 0 rgba(202, 202, 217, 0.57);
+  
+}
+
+.cluster_chart {
+  width: 45%;
+  position: relative;
+  max-height: 100%;
+}
+
+.cluster_info {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 10%;
+  position: relative;
+  max-height: 100%;
+}
