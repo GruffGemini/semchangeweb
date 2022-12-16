@@ -6,3 +6,5 @@ __pycache__
 # Env
 .env
 venv/
+
+.idea
