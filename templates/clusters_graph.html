@@ -23,30 +23,30 @@
             </div>
         </div>
     </div>
-    <h2 class="mt-2 mb-2"></h2>
-    <div class="chart_line_div">
+    <h2 class="mt-2"></h2>
+    <div class="chart_line_div pt-5">
         <div class="cluster_chart">
-            <canvas id="chart1" height="400"></canvas>
+            <canvas id="chart1"></canvas>
         </div>
         <div class="cluster_info">
             <div id="word_change" style="color: red;  display: flex;justify-content: center;align-content: center;flex-direction: column;">
-                Word change: {{ max }}
+                WORD CHANGE: {{ max }}
             </div>
             <div id="cluster_change" style="color: black;  display: flex;justify-content: center;align-content: center;flex-direction: column;">
-                Cluster change:
+                CLUSTER CHANGE:
             </div>
         </div>
         <div class="cluster_chart">
-            <canvas id="chart2" height="400"></canvas>
+            <canvas id="chart2"></canvas>
         </div>
     </div>
     <div class="chart_line_div">
-        <div class="cluster_chart" id="text1" style="height:180px;padding:20px;overflow:auto;">Examples from the chosen cluster will be shown here
-            <canvas height="50"></canvas>
+        <div class="cluster_chart" id="text1" style="padding:30px;overflow:auto;text-align:left;">Click on a cluster to show sentence examples
+            <canvas></canvas>
         </div>
         <div class="cluster_info"></div>
-        <div class="cluster_chart" id="text2" style="height:180px;padding:20px;overflow:auto;">Examples from the chosen cluster will be shown here
-            <canvas height="50"></canvas>
+        <div class="cluster_chart" id="text2" style="padding:30px;overflow:auto;text-align:left;">Click on a cluster to show sentence examples
+            <canvas></canvas>
         </div>
     </div>
 </main>

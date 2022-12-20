@@ -10,6 +10,8 @@ var currentWord = '';
 var clustersReport;
 var clustersBetween;
 
+
+
 function get_data() {
     $.ajax({
         type: 'GET',
@@ -72,7 +74,7 @@ function get_data() {
                     } else if (clusterChange < 0.33) {
                         style = "<span style='color: blue;'>";
                     }
-                    document.getElementById("cluster_change").innerHTML = `${style}Cluster change:<br>${clusterChange}</span>`;
+                    document.getElementById("cluster_change").innerHTML = `${style}CLUSTER CHANGE:<br>${clusterChange}</span>`;
                 }
             };
 
@@ -121,7 +123,7 @@ function get_data() {
                     } else if (clusterChange < 0.33) {
                         style = "<span style='color: blue;'>";
                     }
-                    document.getElementById("cluster_change").innerHTML = `${style}Cluster change:<br>${clusterChange}</span>`;
+                    document.getElementById("cluster_change").innerHTML = `${style}CLUSTER CHANGE:<br>${clusterChange}</span>`;
                 }
             };
         },
@@ -130,6 +132,8 @@ function get_data() {
         }
     })
 };
+
+
 
 function create_chart(chart_id, chart_data) {
     const ctx = document.getElementById(chart_id);
@@ -142,8 +146,8 @@ function create_chart(chart_id, chart_data) {
     const chart = new Chart(ctx, {
         type: 'pie',
         responsive: false,
-        width:10,
-        height:15,
+        width:15,
+        height:20,
         scaleShowGridLines: false,
         data: {
             labels: labels,
@@ -167,16 +171,11 @@ function create_chart(chart_id, chart_data) {
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
             plugins: {
                 legend: {
                     title: {
                         display: true,
-                        text: `${currentWord} (Epoch 1)`,
+                        text: `${currentWord} (epoch 1)`,
                         padding: {
                             top: 10,
                             bottom: 10
@@ -241,10 +240,10 @@ function create_autocomplete(input_id, epoch1Name, epoch2Name, chart1, chart2) {
             } else if (clusterChange < 0.33) {
                 style = "<span style='color: blue;'>"
             }
-            document.getElementById("word_change").innerHTML = `${style} Word change: <br> ${clusterChange}</span>`
-            document.getElementById("cluster_change").innerHTML = 'Cluster change: '
-            document.getElementById("text1").innerHTML = "Examples from the chosen cluster will be shown here";
-            document.getElementById("text2").innerHTML = "Examples from the chosen cluster will be shown here";
+            document.getElementById("word_change").innerHTML = `${style} WORD CHANGE: <br> ${clusterChange}</span>`
+            document.getElementById("cluster_change").innerHTML = 'CLUSTER CHANGE: '
+            document.getElementById("text1").innerHTML = "Click on a cluster to show sentence examples";
+            document.getElementById("text2").innerHTML = "Click on a cluster to show sentence examples";
             cluster1 = -1;
             cluster2 = -1;
         }
@@ -252,7 +251,7 @@ function create_autocomplete(input_id, epoch1Name, epoch2Name, chart1, chart2) {
 };
 
 function add_onclick_event(evt,
-    text_elm_id, chart, innerRadius, outerRadius, 
+    text_elm_id, chart, innerRadius, outerRadius,
     lastActivePoint, epochName, clustersBetween) {
     const activePoints = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
@@ -298,6 +297,6 @@ function add_onclick_event(evt,
         } else if (clusterChange < 0.33) {
             style = "<span style='color: blue;'>";
         }
-        document.getElementById("cluster_change").innerHTML = `${style}Cluster change:<br>${clusterChange}</span>`;
+        document.getElementById("cluster_change").innerHTML = `${style}CLUSTER CHANGE:<br>${clusterChange}</span>`;
     }
 };

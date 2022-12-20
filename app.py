@@ -15,29 +15,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/clusters/')
-def clusters():
-    # тут можно прописать логику для кластеров
-    data = [20, 19, 10]
-    # список data передается как параметр в clusters.html
-    return render_template('clusters.html', data=data)
-
-@app.route('/graded/')
-def graded():
-    # тут просто пример графика с matplotlib
-    t = np.arange(0.0, 2.0, 0.01)
-    s = 1 + np.sin(2 * np.pi * t)
-
-    fig, ax = plt.subplots()
-    ax.plot(t, s)
-
-    ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-    title='About as simple as it gets, folks')
-    ax.grid()
-    # график сохраняется в папку static
-    fig.savefig("static/graph.png")
-
-    return render_template('graded.html')
 
 @app.route('/compare')
 def compare():
@@ -61,6 +38,7 @@ def compare():
                 min_word = word
 
     return render_template('compare_change.html.j2', data=data, min_word=min_word, max_word=max_word, min=min, max=max)
+
 
 @app.route('/clusters_graph')
 def clusters_graph():
@@ -86,10 +64,10 @@ def clusters_graph():
 
     # epochs = list(clusters_report[max_word].keys())
     # initial_data = [[len(i) for i in clusters_report[max_word][epochs[0]]], [len(i) for i in clusters_report[max_word][epochs[1]]]]
-    return render_template('clusters_graph.html.j2')#, word_metrics=word_metrics, initial_data=initial_data, max_word=max_word, 
+    return render_template('clusters_graph.html')#, word_metrics=word_metrics, initial_data=initial_data, max_word=max_word,
                            # clusters_report=clusters_report, max=max, clusters_between=clusters_between)
-        
-    
+
+
 @app.route('/clusters_graph/get_data')
 def get_clusters_graph_data():
     word_metrics = []
@@ -114,5 +92,5 @@ def get_clusters_graph_data():
 
     epochs = list(clusters_report[max_word].keys())
     initial_data = [[len(i) for i in clusters_report[max_word][epochs[0]]], [len(i) for i in clusters_report[max_word][epochs[1]]]]
-    return {'word_metrics': word_metrics, 'initial_data': initial_data, 'max_word': max_word, 
+    return {'word_metrics': word_metrics, 'initial_data': initial_data, 'max_word': max_word,
             'clusters_report': clusters_report, 'max': max, 'clusters_between': clusters_between}
