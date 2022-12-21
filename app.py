@@ -94,3 +94,5 @@ def get_clusters_graph_data():
     initial_data = [[len(i) for i in clusters_report[max_word][epochs[0]]], [len(i) for i in clusters_report[max_word][epochs[1]]]]
     return {'word_metrics': word_metrics, 'initial_data': initial_data, 'max_word': max_word,
             'clusters_report': clusters_report, 'max': max, 'clusters_between': clusters_between}
+if __name__ == '__main__':
+    app.run(debug=True, host="0.0.0.0")
