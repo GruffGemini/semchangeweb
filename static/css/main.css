@@ -1,4 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Faster+One');
+
+
+
+
 
 html {
   height: 100%;
@@ -57,4 +63,32 @@ canvas{
   width: 10%;
   position: relative;
   max-height: 100%;
+}
+
+.logo_font{
+  font-family: 'Faster One';
+  font-size: xx-large;
+}
+
+.violet{
+  color: #5436a8 !important;
+}
+
+.violet_light{
+  color: #5436a8 !important;
+  opacity: 50%;
+}
+
+mark {
+    background: none;
+}
+
+.links{
+  font-size: x-large;
+  font-family: 'Roboto';
+}
+
+a:hover{
+  color: #4e4f52 !important;
+  text-decoration: none;
 }

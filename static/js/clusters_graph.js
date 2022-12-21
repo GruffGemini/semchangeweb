@@ -42,18 +42,18 @@ function get_data() {
                     outerRadius1 = activePoints[0]['element'].outerRadius;
                 }
                 if (lastActivePoint1 != -1) {
-                    lastActivePoint1['element'].innerRadius = lastActivePoint1['element'].innerRadius - 20;
+                    lastActivePoint1['element'].innerRadius = lastActivePoint1['element'].innerRadius - 7;
                 }
                 if (lastActivePoint1 != -1) {
-                    lastActivePoint1['element'].outerRadius = lastActivePoint1['element'].outerRadius - 20;
+                    lastActivePoint1['element'].outerRadius = lastActivePoint1['element'].outerRadius - 7;
                 }
 
                 if (activePoints[0]['element'].innerRadius == innerRadius1) {
-                    activePoints[0]['element'].innerRadius = activePoints[0]['element'].innerRadius + 20;
+                    activePoints[0]['element'].innerRadius = activePoints[0]['element'].innerRadius + 7;
                     lastActivePoint1 = activePoints[0]
                 }
                 if (activePoints[0]['element'].outerRadius == outerRadius1) {
-                    activePoints[0]['element'].outerRadius = activePoints[0]['element'].outerRadius + 20;
+                    activePoints[0]['element'].outerRadius = activePoints[0]['element'].outerRadius + 7;
                     lastActivePoint1 = activePoints[0]
                 }
 
@@ -91,18 +91,18 @@ function get_data() {
                     outerRadius2 = activePoints[0]['element'].outerRadius;
                 }
                 if (lastActivePoint2 != -1) {
-                    lastActivePoint2['element'].innerRadius = lastActivePoint2['element'].innerRadius - 20;
+                    lastActivePoint2['element'].innerRadius = lastActivePoint2['element'].innerRadius - 7;
                 }
                 if (lastActivePoint2 != -1) {
-                    lastActivePoint2['element'].outerRadius = lastActivePoint2['element'].outerRadius - 20;
+                    lastActivePoint2['element'].outerRadius = lastActivePoint2['element'].outerRadius - 7;
                 }
 
                 if (activePoints[0]['element'].innerRadius == innerRadius2) {
-                    activePoints[0]['element'].innerRadius = activePoints[0]['element'].innerRadius + 20;
+                    activePoints[0]['element'].innerRadius = activePoints[0]['element'].innerRadius + 7;
                     lastActivePoint2 = activePoints[0]
                 }
                 if (activePoints[0]['element'].outerRadius == outerRadius2) {
-                    activePoints[0]['element'].outerRadius = activePoints[0]['element'].outerRadius + 20;
+                    activePoints[0]['element'].outerRadius = activePoints[0]['element'].outerRadius + 7;
                     lastActivePoint2 = activePoints[0]
                 }
 
@@ -265,18 +265,18 @@ function add_onclick_event(evt,
         outerRadius = activePoints[0]['element'].outerRadius;
     }
     if (lastActivePoint != -1) {
-        lastActivePoint['element'].innerRadius = lastActivePoint['element'].innerRadius - 20;
+        lastActivePoint['element'].innerRadius = lastActivePoint['element'].innerRadius - 7;
     }
     if (lastActivePoint != -1) {
-        lastActivePoint['element'].outerRadius = lastActivePoint['element'].outerRadius - 20;
+        lastActivePoint['element'].outerRadius = lastActivePoint['element'].outerRadius - 7;
     }
 
     if (activePoints[0]['element'].innerRadius == innerRadius) {
-        activePoints[0]['element'].innerRadius = activePoints[0]['element'].innerRadius + 20;
+        activePoints[0]['element'].innerRadius = activePoints[0]['element'].innerRadius + 7;
         lastActivePoint = activePoints[0]
     }
     if (activePoints[0]['element'].outerRadius == outerRadius) {
-        activePoints[0]['element'].outerRadius = activePoints[0]['element'].outerRadius + 20;
+        activePoints[0]['element'].outerRadius = activePoints[0]['element'].outerRadius + 7;
         lastActivePoint = activePoints[0]
     }
 
