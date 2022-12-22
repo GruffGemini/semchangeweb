@@ -1,6 +1,14 @@
 # semchangeweb
 
-## Setup 
+## Run with docker
+```
+sh
+git clone https://github.com/lizatukhtina/semchangeweb.git
+cd semchangeweb
+docker compose up
+```
+
+## Run without docker 
 macOS/Linux
 ```sh
 git clone https://github.com/lizatukhtina/semchangeweb.git
