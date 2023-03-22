@@ -16,17 +16,8 @@ COPY static/css/main.css /app/static/css/main.css
 COPY static/js/autocomplete.js /app/static/js/autocomplete.js
 COPY static/js/clusters_graph.js /app/static/js/clusters_graph.js
 COPY static/js/jquery-3.6.1.js /app/static/js/jquery-3.6.1.js
-COPY static/js/read_text_file.js /app/static/js/read_text_file.js
-COPY static/data/en/clusters_between.pickle /app/static/data/en/clusters_between.pickle
-COPY static/data/en/clusters_report.pickle /app/static/data/en/clusters_report.pickle
-COPY static/data/en/metrics_report.csv /app/static/data/en/metrics_report.csv
-COPY static/data/en/raw_processed_ccoha1.txt /app/static/data/en/raw_processed_ccoha1.txt
-COPY static/data/en/raw_processed_ccoha2.txt /app/static/data/en/raw_processed_ccoha2.txt
-
-
-
-
-
+COPY static/data/eng.db /app/static/data/eng.db
+COPY static/data/rus.db /app/static/data/rus.db
 
 CMD ["python3", "app.py"]
 

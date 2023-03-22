@@ -2,13 +2,10 @@
 
 {% block head %}
 <title>Explore word clusters</title>
-<script type="text/javascript" src="{{url_for('static', filename='js/read_text_file.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.6.1.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='js/clusters_graph.js')}}"></script>
 <script>
-    var corpus1 = readTextFile("{{url_for('static', filename='data/en/raw_processed_ccoha1.txt')}}");
-    var corpus2 = readTextFile("{{url_for('static', filename='data/en/raw_processed_ccoha2.txt')}}");
-    get_data();
+    get_data("eng");
 </script>
 {% endblock %}
 
