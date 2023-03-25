@@ -10,25 +10,33 @@ var currentWord = '';
 var clustersReport;
 var clustersBetween;
 
+const epoch1NameInternal = 'Epoch1'
+const epoch2NameInternal = 'Epoch2'
 
 
-function get_data() {
+
+function get_data(language) {
     $.ajax({
         type: 'GET',
-        url: '/clusters_graph/get_data',
+        url: `/clusters_graph/get_data/${language}`,
         success: function(data) {
             $('#spinner').hide();
             currentWord = data.max_word;
-            clustersReport = data.clusters_report;
-            clustersBetween = data.clusters_between;
-            const epochs = Object.keys(data.clusters_report[currentWord]);
-            const epoch1Name = epochs[0];
-            const epoch2Name = epochs[1];
             wordList = data.word_metrics;
             wordDict = Object.assign({}, ...wordList.map((x) => ({[x.label]: x.value})));
-            chart1 = create_chart('chart1', data.initial_data[0]);
-            chart2 = create_chart('chart2', data.initial_data[1]);
-            create_autocomplete('input', epoch1Name, epoch2Name, chart1, chart2);
+            chart1 = create_chart('chart1', data.initial_data[0], 'Epoch1');
+            chart2 = create_chart('chart2', data.initial_data[1], 'Epoch2');
+
+            const clusterChange = (wordDict[currentWord]).toFixed(3);
+            let style = "<span style='color: orange;'>";
+            if (clusterChange > 0.66) {
+                style = "<span style='color: red;'>"
+            } else if (clusterChange < 0.33) {
+                style = "<span style='color: blue;'>"
+            }
+            document.getElementById("word_change").innerHTML = `${style} WORD CHANGE: <br> ${clusterChange}</span>`
+
+            create_autocomplete('input', chart1, chart2, language);
             document.getElementById('chart1').onclick = function(evt) {
                 const activePoints = chart1.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
 
@@ -58,16 +66,39 @@ function get_data() {
                 }
 
                 cluster1 = activePoints[0].index;
-                const possibleIndices = clustersReport[currentWord][epoch1Name][cluster1];
-                const shuffled = possibleIndices.sort(() => 0.5 - Math.random());
-                const selected = shuffled.slice(0, Math.min(5, possibleIndices.length));
+                var selected = []
+                $.ajax({
+                    type: 'POST',
+                    url: `/api/sentences/${language}`,
+                    data: {"word": currentWord, "epoch": epoch1NameInternal, 'cluster': cluster1, 'limit': 5},
+                    async: false,
+                    success: function(data) {
+                        selected = data['result'];
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
                 let exampleText = "";
                 for (i = 0; i < selected.length; i++) {
-                    exampleText += `<b>Example ${i + 1}</b><br>${corpus1[selected[i]]}<br><br>`;
+                    exampleText += `<b>Example ${i + 1}</b><br>${selected[i]}<br><br>`;
                 }
                 document.getElementById('text1').innerHTML = exampleText;
+                
                 if (cluster1 != -1 && cluster2 != -1) {
-                    const clusterChange = (clustersBetween[currentWord][cluster1][cluster2]).toFixed(3);
+                    var clusterChange = 0;
+                    $.ajax({
+                        type: 'POST',
+                        url: `/api/between_clusters/${language}`,
+                        data: {"word": currentWord, "cluster1": cluster1, 'cluster2': cluster2},
+                        async: false,
+                        success: function(data) {
+                            clusterChange = data['result'].toFixed(3);
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    })
                     let style = "<span style='color: orange;'>";
                     if (clusterChange > 0.66) {
                         style = "<span style='color: red;'>";
@@ -107,16 +138,38 @@ function get_data() {
                 }
 
                 cluster2 = activePoints[0].index;
-                const possibleIndices = clustersReport[currentWord][epoch2Name][cluster2];
-                const shuffled = possibleIndices.sort(() => 0.5 - Math.random());
-                const selected = shuffled.slice(0, Math.min(5, possibleIndices.length));
+                var selected = []
+                $.ajax({
+                    type: 'POST',
+                    url: `/api/sentences/${language}`,
+                    data: {"word": currentWord, "epoch": epoch2NameInternal, 'cluster': cluster2, 'limit': 5},
+                    async: false,
+                    success: function(data) {
+                        selected = data['result'];
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
                 let exampleText = "";
                 for (i = 0; i < selected.length; i++) {
-                    exampleText += `<b>Example ${i + 1}</b><br>${corpus2[selected[i]]}<br><br>`;
+                    exampleText += `<b>Example ${i + 1}</b><br>${selected[i]}<br><br>`;
                 }
                 document.getElementById('text2').innerHTML = exampleText;
                 if (cluster1 != -1 && cluster2 != -1) {
-                    const clusterChange = (clustersBetween[currentWord][cluster1][cluster2]).toFixed(3);
+                    var clusterChange = 0;
+                    $.ajax({
+                        type: 'POST',
+                        url: `/api/between_clusters/${language}`,
+                        data: {"word": currentWord, "cluster1": cluster1, 'cluster2': cluster2},
+                        async: false,
+                        success: function(data) {
+                            clusterChange = data['result'].toFixed(3);
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    })
                     let style = "<span style='color: orange;'>";
                     if (clusterChange > 0.66) {
                         style = "<span style='color: red;'>";
@@ -135,7 +188,7 @@ function get_data() {
 
 
 
-function create_chart(chart_id, chart_data) {
+function create_chart(chart_id, chart_data, epoch_label) {
     const ctx = document.getElementById(chart_id);
     ctx.height = window.innerHeight * 0.2;
     const labels = [];
@@ -175,7 +228,7 @@ function create_chart(chart_id, chart_data) {
                 legend: {
                     title: {
                         display: true,
-                        text: `${currentWord} (epoch 1)`,
+                        text: `${currentWord} (${epoch_label})`,
                         padding: {
                             top: 10,
                             bottom: 10
@@ -191,7 +244,7 @@ function create_chart(chart_id, chart_data) {
     return chart
 };
 
-function create_autocomplete(input_id, epoch1Name, epoch2Name, chart1, chart2) {
+function create_autocomplete(input_id, chart1, chart2, language) {
     const field = document.getElementById(input_id);
     const autocomplete = new Autocomplete(field, {
         data: wordList,
@@ -199,10 +252,20 @@ function create_autocomplete(input_id, epoch1Name, epoch2Name, chart1, chart2) {
         threshold: 1,
         onSelectItem: ({label, value}) => {
             currentWord = label;
-            const data1 = [];
-            for (let i = 0; i < clustersReport[currentWord][epoch1Name].length; i++) {
-                data1.push(clustersReport[currentWord][epoch1Name][i].length);
-            }
+
+            var data1 = [];
+            $.ajax({
+                type: 'POST',
+                url: `/api/cluster_sizes/${language}`,
+                data: {"word": currentWord, "epoch": epoch1NameInternal},
+                async: false,
+                success: function(data) {
+                    data1 = data['result'];
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            })
             const labels1 = [];
             for (let i = 0; i < data1.length; i++) {
                 labels1.push('Cluster ' + (i + 1));
@@ -211,10 +274,19 @@ function create_autocomplete(input_id, epoch1Name, epoch2Name, chart1, chart2) {
             chart1.data.datasets[0].data = data1
             chart1.options.plugins.legend.title.text = currentWord + " (Epoch 1)"
 
-            const data2 = []
-            for (let i = 0; i < clustersReport[currentWord][epoch2Name].length; i++) {
-                data2.push(clustersReport[currentWord][epoch2Name][i].length)
-            }
+            var data2 = []
+            $.ajax({
+                type: 'POST',
+                url: `/api/cluster_sizes/${language}`,
+                data: {"word": currentWord, "epoch": epoch2NameInternal},
+                async: false,
+                success: function(data) {
+                    data2 = data['result'];
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            })
             const labels2 = []
             for (let i = 0; i < data2.length; i++) {
                 labels2.push('Cluster ' + (i + 1))

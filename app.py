@@ -1,98 +1,102 @@
-import json
-from flask import Flask
-from flask import url_for
-from flask import request
-from flask import render_template, jsonify
-import matplotlib.pyplot as plt
-import numpy as np
-import pickle
+import sqlite3
+from flask import Flask, render_template, request
 
-
+from db import *
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def index():
     return render_template('index.html')
 
 
-@app.route('/compare')
-def compare():
-    data = []
-    min = 1.1
-    max = -0.1
-    min_word = ""
-    max_word = ""
+@app.route('/compare/eng')
+def compare_eng():
+    eng_database = sqlite3.connect('static/data/eng.db').cursor()
+    compare_data = get_compare_change_data(eng_database)
+    return render_template('compare_change.html.j2', data=compare_data['data'], min_word=compare_data['min_word'],
+                           max_word=compare_data['max_word'], min=compare_data['min'], max=compare_data['max'])
 
-    with open('static/data/en/metrics_report.csv') as f:
-        f.readline()
-        for line in f:
-            word, metric = line.split(';')
-            metric = float(metric.strip())
-            data.append({"label": word, "value": metric})
-            if metric > max:
-                max = metric
-                max_word = word
-            elif metric < min:
-                min = metric
-                min_word = word
 
-    return render_template('compare_change.html.j2', data=data, min_word=min_word, max_word=max_word, min=min, max=max)
+@app.route('/compare/rus')
+def compare_rus():
+    rus_database = sqlite3.connect('static/data/rus.db').cursor()
+    compare_data = get_compare_change_data(rus_database)
+    return render_template('compare_change.html.j2', data=compare_data['data'], min_word=compare_data['min_word'],
+                           max_word=compare_data['max_word'], min=compare_data['min'], max=compare_data['max'])
 
 
 @app.route('/clusters_graph')
 def clusters_graph():
-    # word_metrics = []
-    # max = -0.1
-    # max_word = ""
-
-    # with open('static/data/en/metrics_report.csv') as f:
-    #     f.readline()
-    #     for line in f:
-    #         word, metric = line.split(';')
-    #         metric = float(metric.strip())
-    #         word_metrics.append({"label": word, "value": metric})
-    #         if metric > max:
-    #             max = metric
-    #             max_word = word
-
-    # with open('static/data/en/clusters_report.pickle', 'rb') as f:
-    #     clusters_report = pickle.load(f)
-    # with open('static/data/en/clusters_between.pickle', 'rb') as f:
-    #     clusters_between = pickle.load(f)
-    # clusters_between = {key: value.tolist() for (key, value) in clusters_between.items()}
-
-    # epochs = list(clusters_report[max_word].keys())
-    # initial_data = [[len(i) for i in clusters_report[max_word][epochs[0]]], [len(i) for i in clusters_report[max_word][epochs[1]]]]
-    return render_template('clusters_graph.html')#, word_metrics=word_metrics, initial_data=initial_data, max_word=max_word,
-                           # clusters_report=clusters_report, max=max, clusters_between=clusters_between)
+    return render_template('clusters_graph.html')
 
 
-@app.route('/clusters_graph/get_data')
-def get_clusters_graph_data():
-    word_metrics = []
-    max = -0.1
-    max_word = ""
+@app.route('/clusters_graph/get_data/eng')
+def get_clusters_graph_data_eng():
+    eng_database = sqlite3.connect('static/data/eng.db').cursor()
+    return get_clusters_graph_data(eng_database)
 
-    with open('static/data/en/metrics_report.csv') as f:
-        f.readline()
-        for line in f:
-            word, metric = line.split(';')
-            metric = float(metric.strip())
-            word_metrics.append({"label": word, "value": metric})
-            if metric > max:
-                max = metric
-                max_word = word
 
-    with open('static/data/en/clusters_report.pickle', 'rb') as f:
-        clusters_report = pickle.load(f)
-    with open('static/data/en/clusters_between.pickle', 'rb') as f:
-        clusters_between = pickle.load(f)
-    clusters_between = {key: value.tolist() for (key, value) in clusters_between.items()}
+@app.route('/clusters_graph/get_data/rus')
+def get_clusters_graph_data_rus():
+    rus_database = sqlite3.connect('static/data/rus.db').cursor()
+    return get_clusters_graph_data(rus_database)
 
-    epochs = list(clusters_report[max_word].keys())
-    initial_data = [[len(i) for i in clusters_report[max_word][epochs[0]]], [len(i) for i in clusters_report[max_word][epochs[1]]]]
-    return {'word_metrics': word_metrics, 'initial_data': initial_data, 'max_word': max_word,
-            'clusters_report': clusters_report, 'max': max, 'clusters_between': clusters_between}
+
+@app.route("/api/between_clusters/eng", methods=["POST"])
+def api_between_clusters_eng():
+    eng_database = sqlite3.connect('static/data/eng.db').cursor()
+    word = request.values.get('word')
+    cluster1 = request.values.get('cluster1')
+    cluster2 = request.values.get('cluster2')
+    return get_change_between_clusters(eng_database, word, cluster1, cluster2)
+
+
+@app.route("/api/between_clusters/rus", methods=["POST"])
+def api_between_clusters_rus():
+    rus_database = sqlite3.connect('static/data/rus.db').cursor()
+    word = request.values.get('word')
+    cluster1 = request.values.get('cluster1')
+    cluster2 = request.values.get('cluster2')
+    return get_change_between_clusters(rus_database, word, cluster1, cluster2)
+
+
+@app.route("/api/cluster_sizes/eng", methods=["POST"])
+def cluster_sizes_eng():
+    eng_database = sqlite3.connect('static/data/eng.db').cursor()
+    word = request.values.get('word')
+    epoch = request.values.get('epoch')
+    return get_cluster_sizes(eng_database, word, epoch)
+
+
+@app.route("/api/cluster_sizes/rus", methods=["POST"])
+def cluster_sizes_rus():
+    rus_database = sqlite3.connect('static/data/rus.db').cursor()
+    word = request.values.get('word')
+    epoch = request.values.get('epoch')
+    return get_cluster_sizes(rus_database, word, epoch)
+
+
+@app.route("/api/sentences/eng", methods=["POST"])
+def sentences_eng():
+    eng_database = sqlite3.connect('static/data/eng.db').cursor()
+    word = request.values.get('word')
+    epoch = request.values.get('epoch')
+    cluster = request.values.get('cluster')
+    limit = request.values.get('limit')
+    return get_random_sentences(eng_database, word, epoch, cluster, limit)
+
+
+@app.route("/api/sentences/rus", methods=["POST"])
+def sentences_rus():
+    rus_database = sqlite3.connect('static/data/rus.db').cursor()
+    word = request.values.get('word')
+    epoch = request.values.get('epoch')
+    cluster = request.values.get('cluster')
+    limit = request.values.get('limit')
+    return get_random_sentences(rus_database, word, epoch, cluster, limit)
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
