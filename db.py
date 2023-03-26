@@ -1,5 +1,5 @@
 from sqlite3 import Cursor
-from typing import Dict, List
+from typing import Dict, List, Union
 
 EPOCH1_NAME_INTERNAL = 'Epoch1'
 EPOCH2_NAME_INTERNAL = 'Epoch2'
@@ -49,7 +49,7 @@ def get_clusters_graph_data(database: Cursor) -> dict:
             'max': compare_data['max']}
 
 
-def get_random_sentences(database: Cursor, word: str, epoch: str, cluster: int, n_sentences=5) -> Dict[str, List[str]]:
+def get_random_sentences(database: Cursor, word: str, epoch: str, cluster: int, n_sentences=5) -> Dict[str, List[Dict[str, Union[str, int]]]]:
     if epoch == EPOCH1_NAME_INTERNAL:
         occur_table = 'wordOccurrencesEpoch1'
         corpus_table = 'corpusEpoch1'
@@ -60,14 +60,14 @@ def get_random_sentences(database: Cursor, word: str, epoch: str, cluster: int, 
         raise Exception('Unknown epoch name')
 
     query = f"""
-            select text from {occur_table} 
+            select text, position from {occur_table} 
             join wordDict ON {occur_table}.word_id = wordDict.word_id
             join {corpus_table} ON {corpus_table}.sentence_id = {occur_table}.sentence_id 
             where word = ? and cluster_id = ? ORDER BY RANDOM() limit ?
             """
     database.execute(query, (word, cluster, n_sentences))
 
-    return {'result': list(database.fetchall())}
+    return {'result': [{'sentence': row[0], 'position': row[1]} for row in database.fetchall()]}
 
 
 def get_change_between_clusters(database: Cursor, word: str, cluster1: int, cluster2: int):
