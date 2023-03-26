@@ -8,6 +8,29 @@
 {% block body %}
 <main role="main" class="container text-center">
     <h1 class="mt-2 mb-2">Compare the change</h1>
+
+    <button id="switchEngButton" type="submit" onclick="location.href='/compare/eng'" >
+        <img src="{{url_for('static', filename='eng.png')}}" width="50" height="50" alt="submit" />
+    </button>
+    <button id="switchRusButton" type="submit" onclick="location.href='/compare/rus'" >
+        <img src="{{url_for('static', filename='rus.png')}}" width="50" height="50" alt="submit" />
+    </button>
+
+    <script>
+    var currentUrl = window.location.href;
+    if (currentUrl.endsWith("rus")) {
+        document.getElementById("switchRusButton").disabled = true;
+        document.getElementById("switchRusButton").style.border = 1;
+        document.getElementById("switchRusButton").style.borderColor = "red";
+        document.getElementById("switchEngButton").style.border = 0;
+    } else {
+        document.getElementById("switchEngButton").disabled = true;
+        document.getElementById("switchEngButton").style.border = 1;
+        document.getElementById("switchEngButton").style.borderColor = "red";
+        document.getElementById("switchRusButton").style.border = 0;
+    }
+    </script>
+
     <div class="container pt-4 pb-4">
         <div class="h-100 d-flex flex-column bd-highlight">
             <div class="input-group">

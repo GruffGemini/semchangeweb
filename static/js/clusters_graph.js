@@ -81,7 +81,18 @@ function get_data(language) {
                 })
                 let exampleText = "";
                 for (i = 0; i < selected.length; i++) {
-                    exampleText += `<b>Example ${i + 1}</b><br>${selected[i]}<br><br>`;
+                    exampleText += `<b>Example ${i + 1}</b><br>`;
+                    sentence_parts = selected[i]['sentence'].split(' ');
+                    position = selected[i]['position']
+                    for (j = 0; j < sentence_parts.length; j++) {
+                        if (j == position) {
+                            exampleText += `<b><span style='color: red;'>${sentence_parts[j]}</span></b>`;
+                        } else {
+                            exampleText += sentence_parts[j];
+                        }
+                        exampleText += " "
+                    }
+                    exampleText += "<br><br>";
                 }
                 document.getElementById('text1').innerHTML = exampleText;
                 
@@ -153,7 +164,18 @@ function get_data(language) {
                 })
                 let exampleText = "";
                 for (i = 0; i < selected.length; i++) {
-                    exampleText += `<b>Example ${i + 1}</b><br>${selected[i]}<br><br>`;
+                    exampleText += `<b>Example ${i + 1}</b><br>`;
+                    sentence_parts = selected[i]['sentence'].split(' ');
+                    position = selected[i]['position']
+                    for (j = 0; j < sentence_parts.length; j++) {
+                        if (j == position) {
+                            exampleText += `<b><span style='color: red;'>${sentence_parts[j]}</span></b>`;
+                        } else {
+                            exampleText += sentence_parts[j];
+                        }
+                        exampleText += " "
+                    }
+                    exampleText += "<br><br>";
                 }
                 document.getElementById('text2').innerHTML = exampleText;
                 if (cluster1 != -1 && cluster2 != -1) {
