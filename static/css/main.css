@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Faster+One');
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+
 
 
 
@@ -70,13 +73,16 @@ canvas{
   font-size: xx-large;
 }
 
+.my_font{
+  font-family: 'Anton';
+}
+
 .violet{
-  color: #5436a8 !important;
+  color: #332FD0 !important;
 }
 
 .violet_light{
-  color: #5436a8 !important;
-  opacity: 50%;
+  color: #FB2576 !important;
 }
 
 mark {
@@ -92,3 +98,32 @@ a:hover{
   color: #4e4f52 !important;
   text-decoration: none;
 }
+
+.text_left{
+  text-align: left !important;
+  margin-left: 1em; 
+  margin-top: 1em !important;
+}
+
+.gradient{
+  background: rgb(51,47,208);
+  background: linear-gradient(90deg, rgba(51,47,208,1) 25%, rgba(152,152,235,1) 100%);
+}
+
+.column {
+  float: left;
+  width: 45%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.border{
+  border: 50px solid #555;
+}
+

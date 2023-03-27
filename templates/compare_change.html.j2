@@ -7,7 +7,7 @@
 
 {% block body %}
 <main role="main" class="container text-center">
-    <h1 class="mt-2 mb-2">Compare the change</h1>
+    <h1 class="mt-2 mb-2 violet">Compare the change</h1>
 
     <button id="switchEngButton" type="submit" onclick="location.href='/compare/eng'" >
         <img src="{{url_for('static', filename='eng.png')}}" width="50" height="50" alt="submit" />
@@ -15,6 +15,9 @@
     <button id="switchRusButton" type="submit" onclick="location.href='/compare/rus'" >
         <img src="{{url_for('static', filename='rus.png')}}" width="50" height="50" alt="submit" />
     </button>
+
+    <p class="text_left lead mt-2 mb-2">Comparative analysis of words changes. Use search bar to add words. <br> Change meric range: <span class="violet_light">[0,1] </span>. Closer to <span class="violet_light">0</span> — probably no changes. Closer to <span class="violet_light">1</span> — a sign of a semantic shift</p>
+
 
     <script>
     var currentUrl = window.location.href;

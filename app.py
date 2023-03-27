@@ -29,11 +29,11 @@ def compare_rus():
 
 @app.route('/clusters_graph/eng')
 def clusters_graph_eng():
-    return render_template('clusters_graph.html')
+    return render_template('clusters_graph.html', epoch1='1810-1860', epoch2='1960-2010')
 
 @app.route('/clusters_graph/rus')
 def clusters_graph_rus():
-    return render_template('clusters_graph.html')
+    return render_template('clusters_graph.html', epoch1='1700-1916', epoch2='1902-2016')
 
 @app.route('/clusters_graph/get_data/eng')
 def get_clusters_graph_data_eng():

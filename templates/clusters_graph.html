@@ -4,11 +4,12 @@
 <title>Explore word clusters</title>
 <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.6.1.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='js/clusters_graph.js')}}"></script>
+
 {% endblock %}
 
 {% block body %}
 <main role="main" class="container text-center">
-    <h1 class="mt-2 mb-2">Explore word clusters</h1>
+    <h1 class="mt-2 mb-2 violet">Explore word clusters</h1>
 
     <button id="switchEngButton" type="submit" onclick="location.href='/clusters_graph/eng'" >
         <img src="{{url_for('static', filename='eng.png')}}" width="50" height="50" alt="submit" />
@@ -16,6 +17,8 @@
     <button id="switchRusButton" type="submit" onclick="location.href='/clusters_graph/rus'" >
         <img src="{{url_for('static', filename='rus.png')}}" width="50" height="50" alt="submit" />
     </button>
+
+    <p class="text_left lead mt-2 mb-2">Explore word clusters for two different time periods. Epoch 1: <span class="violet_light">{{ epoch1 }} </span>. Epoch 2: <span class="violet_light">{{ epoch2 }}</span></p>
 
     <script>
     var currentUrl = window.location.href;

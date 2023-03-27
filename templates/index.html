@@ -7,24 +7,43 @@
 {% block body %}
 <!-- Begin page content -->
 <main role="main" class="container">
-  <h1 class="mt-5 mb-3 violet">Project Description</h1>
+  <h1 class="mt-5 mb-3 my_font violet display-5">Explore diachronic changes in the usage of words</h1>
   <p class="lead">Welcome to <span class='violet'>SEMCHANGE</span> — a web service for analyzing diachronic changes in the usage of words.</p>
-  <h2 class="mt-1 mb-3 violet">Visualizations</h2>
+  <h2 class="mt-1 mb-3 violet_light">Visualizations</h2>
   <p class="lead">The current version of our app has following visualizations:</p>
   <ul>
-    <li class="lead"><span class='violet'>Word Changes</span>: comparison of word changes</li>
-    <li class="lead"><span class='violet'>Word Clusters</span>: exploring clusters of word's different meanings</li>
+    <li class="lead">Word Changes: comparison of word changes</li>
+    <li class="lead">Word Clusters: exploring clusters of word's different meanings</li>
   </ul>
-  <p class="lead">Supported language: English<br>Visualizations for Russian will be added soon</p>
-  <h2 class="mt-1 mb-3 violet">Data</h2>
+
+  <div class="row mb-2">
+  <div class="column border border-dark">
+    <img src="{{url_for('static', filename='compare.png')}}" alt="compare" style="width:100%">
+  </div>
+  <div class="column border border-dark">
+    <img src="{{url_for('static', filename='clusters.png')}}" alt="clusters" style="width:100%">
+  </div>
+</div>
+
+  <p class="lead pt-3">Supported languages: English, Russian</p>
+  <h2 class="mt-1 mb-3 violet_light">Data</h2>
+   <p class="lead pt-2 violet_light"> English</p>
   <p class="lead">To get results for English, we used <a class="violet" href="https://aclanthology.org/2020.lrec-1.859/">Clean Corpus of Historical American English (CCOHA)</a>.
   <br> Time coverage for each corpus:
   </p>
   <ul>
-    <li class="lead"><span class='violet'>Corpus 1</span>: 1810-1860</li>
-    <li class="lead"><span class='violet'>Corpus 2</span>: 1960-2010</li>
+    <li class="lead">Corpus 1: 1810-1860</li>
+    <li class="lead">Corpus 2: 1960-2010</li>
   </ul>
-  <h2 class="mt-1 mb-3 violet">Team</h2>
+   <p class="lead pt-2 violet_light"> Russian</p>
+  <p class="lead">For Russian we used <a class="violet" href="https://ruscorpora.ru/en/page/corpora-datasets/">Diachronic datasets of the RNC</a>.
+  <br> Time coverage for each corpus:
+  </p>
+  <ul>
+    <li class="lead">Corpus 1: 1700–1916</li>
+    <li class="lead">Corpus 2: 1992–2016</li>
+  </ul>
+  <h2 class="mt-1 mb-3 violet_light">Team</h2>
   <p class="lead">This project was made by Master's students from the <a class="violet" href="https://www.hse.ru/en/">Higher School of Economics</a>:</p>
   <ul>
     <li class="lead">Alexander Shein</li>
@@ -32,7 +51,7 @@
     <li class="lead">Svetlana Vydrina</li>
     <li class="lead">Elizaveta Tukhtina</li>
   </ul>
-
+  <p class="lead">Project supervisor: Lidia Pivovarova</p>
 
 
 </main>
